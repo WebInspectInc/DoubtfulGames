@@ -1,0 +1,133 @@
+/* latin */
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 800;
+  src: local('Open Sans ExtraBold'), local('OpenSans-ExtraBold'), url(https://fonts.gstatic.com/s/opensans/v15/mem5YaGs126MiZpBA-UN8rsOUuhpKKSTjw.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/*
+
+	Glitchy Text from https://css-tricks.com/glitch-effect-text-images-svg/
+    Mixin borrowed from Matt Stvartak: https://codepen.io/mattstvartak/pen/amWAVA/
+
+  (TEXT) PARAMS
+  =================
+  1. Namespace
+  2. Intensity
+  3. Text color
+  4. Background color (flat)
+  5. Highlight #1 color
+  6. Highlight #2 color
+  7. Width (px)
+  8. Height (px)
+*/
+
+@mixin textGlitch($name, $intensity, $textColor, $background, $highlightColor1, $highlightColor2, $width, $height) {
+  
+  color: $textColor;
+  position: relative;
+  $steps: $intensity;
+  
+  // Ensure the @keyframes are generated at the root level
+  @at-root {
+    // We need two different ones
+    @for $i from 1 through 2 {
+      @keyframes #{$name}-anim-#{$i} {
+        @for $i from 0 through $steps {
+          #{percentage($i*(1/$steps))} {
+            clip: rect(
+              random($height)+px,
+              $width+px,
+              random($height)+px,
+              0
+            );
+          }
+        }
+      }
+    }
+  }
+  &:before,
+  &:after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: $background;
+    clip: rect(0, 0, 0, 0); 
+  }
+  &:after {
+    left: 2px;
+    text-shadow: -1px 0 $highlightColor1;
+    animation: #{$name}-anim-1 2s infinite linear alternate-reverse;
+  }
+  &:before {
+    left: -2px;
+    text-shadow: 2px 0 $highlightColor2; 
+    animation: #{$name}-anim-2 3s infinite linear alternate-reverse;
+  }
+  
+}
+
+$background: white;
+$text-color: #000368;
+$left-glitch: red;
+$right-glitch: blue;
+
+html, body {
+	background-color: $background;
+	text-align: center;
+	padding: 5%;
+}
+
+.main-header {
+	margin: 0;
+	color: #62C85B;
+	font-family: 'Open Sans', sans-serif;
+	text-transform: uppercase;
+	font-size: 6.5vw;
+	font-weight: bold;
+  @include textGlitch("glitch", 17, $text-color, $background, $left-glitch, $right-glitch, 1084, 115);
+}
+
+.content {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	display: flex;
+	flex-flow: column nowrap;
+	align-content: center;
+	justify-content: center;
+	overflow: hidden;
+}
+.social {
+	width: 200px;
+	margin: 48px auto;
+	display: flex;
+	justify-content: space-between;
+	color: $text-color;
+	@media (min-width: 600px) {
+		width: 320px;
+	}
+}
+.icon {
+	fill: currentColor;
+	height: 32px;
+	width: 32px;
+	display: block;
+	@media (min-width: 600px) {
+		height: 48px;
+		width: 48px;
+	}
+}
+
+a:link, a:visited {
+	color: $text-color;
+}
+a:hover, a:focus, a:active {
+	filter: drop-shadow(1px 1px 0 $left-glitch);
+}
