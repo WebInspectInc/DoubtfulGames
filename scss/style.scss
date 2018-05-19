@@ -9,7 +9,7 @@
 
 /*
 
-	Glitchy Text from https://css-tricks.com/glitch-effect-text-images-svg/
+  Glitchy Text from https://css-tricks.com/glitch-effect-text-images-svg/
     Mixin borrowed from Matt Stvartak: https://codepen.io/mattstvartak/pen/amWAVA/
 
   (TEXT) PARAMS
@@ -39,7 +39,7 @@
           #{percentage($i*(1/$steps))} {
             clip: rect(
               random($height)+px,
-              $width+px,
+              $width,
               random($height)+px,
               0
             );
@@ -77,57 +77,67 @@ $left-glitch: red;
 $right-glitch: blue;
 
 html, body {
-	background-color: $background;
-	text-align: center;
-	padding: 5%;
+  background-color: $background;
+  text-align: center;
+  padding: 5%;
 }
 
 .main-header {
-	margin: 0;
-	color: #62C85B;
-	font-family: 'Open Sans', sans-serif;
-	text-transform: uppercase;
-	font-size: 6.5vw;
-	font-weight: bold;
-  @include textGlitch("glitch", 17, $text-color, $background, $left-glitch, $right-glitch, 1084, 115);
+  margin: 0;
+  color: #62C85B;
+  font-family: 'Open Sans', sans-serif;
+  text-transform: uppercase;
+  font-size: 6.5vw;
+  font-weight: bold;
+  @include textGlitch("glitch", 17, $text-color, $background, $left-glitch, $right-glitch, 80vw, 115);
+}
+
+p {
+  font-family: 'Open Sans', sans-serif;
+  color: $text-color;
+  padding: 0 8px;
+  font-size: 14px;
+  @media (min-width: 900px) {
+    font-size: 1.2vw;
+  }
 }
 
 .content {
-	position: absolute;
-	top: 0;
-	left: 0;
-	height: 100%;
-	width: 100%;
-	display: flex;
-	flex-flow: column nowrap;
-	align-content: center;
-	justify-content: center;
-	overflow: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  align-content: center;
+  justify-content: center;
+  overflow: hidden;
 }
 .social {
-	width: 200px;
-	margin: 48px auto;
-	display: flex;
-	justify-content: space-between;
-	color: $text-color;
-	@media (min-width: 600px) {
-		width: 320px;
-	}
+  width: 200px;
+  margin: 48px auto;
+  display: flex;
+  justify-content: space-between;
+  color: $text-color;
+  @media (min-width: 600px) {
+    width: 320px;
+  }
 }
 .icon {
-	fill: currentColor;
-	height: 32px;
-	width: 32px;
-	display: block;
-	@media (min-width: 600px) {
-		height: 48px;
-		width: 48px;
-	}
+  fill: currentColor;
+  height: 32px;
+  width: 32px;
+  display: block;
+  @media (min-width: 600px) {
+    height: 48px;
+    width: 48px;
+  }
 }
 
 a:link, a:visited {
-	color: $text-color;
+  color: $text-color;
 }
 a:hover, a:focus, a:active {
-	filter: drop-shadow(1px 1px 0 $left-glitch);
+  filter: drop-shadow(1px 1px 0 $left-glitch);
 }
